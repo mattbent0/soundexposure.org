@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sound Exposure is a sound series in New York City for experimental music and new works.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+<meta property="og:title" content="Sound Exposure">
+<meta property="og:description" content="A sound series in New York City for experimental music and new works.">
+<title>Sound Exposure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@600;700&display=swap">
+<style>
+/* Layout: one white screen set in a bold, tight grotesk (header row / headline / event grid / footer line). Cut-outs from the Vol. 1 flyer are laid out in the space the text leaves free, scaled to fit one screen, and stay draggable. Single deliberate look: white, like the flyer. */
+:root{
+  --bg:#ffffff;
+  --fg:#000000;
+  --dim:#6f6f6f;
+  --grot:"Figtree","Helvetica Neue",Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--grot);font-weight:600;font-size:13px;line-height:1.3;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#stage{position:relative;min-height:100svh;height:100svh;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;gap:2.2rem;
+  padding-block:16px 18px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.text{position:relative;z-index:1;min-width:0}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:.15em}
+a:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:13px}
+.top .name{font-size:19px;font-weight:700;letter-spacing:-.01em;text-transform:uppercase;line-height:1}
+.top nav{display:flex;gap:1.1rem}
+
+.mid{display:grid;gap:2.6rem;align-content:start;justify-self:start;max-width:62rem}
+h1{margin:0;font-weight:700;font-size:clamp(22px,2.6vw,30px);line-height:1.02;letter-spacing:-.02em;max-width:34ch;text-wrap:balance}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem 2.4rem}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+@media (max-width:719px){#stage{height:auto;min-height:100svh;overflow:visible}}
+.vol{display:grid;gap:.35rem}
+.vol .row{display:flex;justify-content:space-between;gap:1rem;font-size:12px;letter-spacing:.01em;text-transform:uppercase}
+.vol .who{font-size:15px;text-transform:uppercase;line-height:1.25}
+.vol .where{font-size:12px;letter-spacing:.01em;text-transform:uppercase;color:var(--dim)}
+.labels{display:flex;justify-content:space-between;font-size:15px;text-transform:uppercase}
+.labels span:last-child{color:var(--dim)}
+.bottom{display:flex;justify-content:space-between;gap:1rem;font-size:10.5px;letter-spacing:.01em;text-transform:uppercase}
+
+/* draggable cut-outs */
+.obj{position:absolute;z-index:2;left:0;top:0;cursor:move;touch-action:none;user-select:none;-webkit-user-drag:none;width:var(--w);opacity:var(--o,0);transform:translate(var(--x),var(--y)) rotate(var(--r,0deg)) scale(var(--s,1));transform-origin:50% 50%;outline:none;-webkit-tap-highlight-color:transparent}
+.obj img,.obj svg{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-drag:none}
+.obj.drag{z-index:3}
+.obj.big{--s:1.8}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div class="text top">
+    <span class="name">Sound Exposure</span>
+    <nav aria-label="Links">
+      <a href="https://www.instagram.com/sound.exposure" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:mattbent001@gmail.com">Contact</a>
+    </nav>
+  </div>
+
+  <div class="text mid" id="mid">
+    <h1>Sound Exposure is a sound series in New York City for experimental music and new works.</h1>
+    <div>
+      <div class="labels"><span>Events</span><span>2026</span></div>
+      <div class="grid" style="margin-top:.5rem">
+        <article class="vol">
+          <div class="row"><span>02</span><span>10/10/2026</span></div>
+          <div class="who">Kevin Eichenberger String Quartet / Love Organ (Axine M &amp; Julia Santoli) / Kwami Winfield</div>
+          <div class="where">RDC — 60-70 Putnam Ave, Ridgewood</div>
+        </article>
+        <article class="vol">
+          <div class="row"><span>01</span><span>7/24/2026</span></div>
+          <div class="who">Simon Hanes’ “Dreams of Reason” / Aliya Ultan X Shem Goldman / Declan Sheehy-Moss</div>
+          <div class="where">Life World — 563 Johnson Ave, Brooklyn</div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <div class="text bottom" id="bottom">
+    <span>Vol. 03 — TBA</span>
+    <span>NYC</span>
+  </div>
+
+  <!-- cut-outs from the Vol. 1 flyer; data-w is the natural width in px. Positions are computed from the free space around the text. -->
+  <div class="obj" data-w="250" style="--r:-18deg"><svg viewBox="0 0 400 220" aria-label="Purple ribbon"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".25" stop-color="#b9a9f2"/><stop offset=".55" stop-color="#5a3dd9"/><stop offset="1" stop-color="#1a1430"/></linearGradient></defs><path d="M20 40 C 140 -10, 300 20, 360 90 S 250 230, 120 180" fill="none" stroke="url(#g1)" stroke-width="15" stroke-linecap="round"/></svg></div>
+  <div class="obj" data-w="300" style="--r:6deg"><svg viewBox="0 0 520 160" aria-label="Striped ribbon"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a9a9a"/><stop offset=".3" stop-color="#eefb4b"/><stop offset=".5" stop-color="#f3ff7a"/><stop offset=".62" stop-color="#101010"/><stop offset=".85" stop-color="#1f1f1f"/><stop offset="1" stop-color="#1fd6ff"/></linearGradient></defs><path d="M10 110 C 120 20, 260 20, 390 60 S 500 120, 510 70" fill="none" stroke="url(#g2)" stroke-width="22" stroke-linecap="butt"/></svg></div>
+  <div class="obj" data-w="220" style="--r:-30deg"><svg viewBox="0 0 400 200" aria-label="Pink ribbon"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#bfe9d5"/><stop offset=".35" stop-color="#ffffff"/><stop offset=".6" stop-color="#ff8fd6"/><stop offset="1" stop-color="#6d4bd9"/></linearGradient></defs><path d="M10 150 C 90 40, 200 30, 280 90 S 380 170, 390 120" fill="none" stroke="url(#g3)" stroke-width="13" stroke-linecap="round"/></svg></div>
+  <div class="obj" data-w="170"><img src="img/c1.png" alt="Starburst, rings and question marks"></div>
+  <div class="obj" data-w="170"><img src="img/c2.png" alt="Arrows and stars"></div>
+  <div class="obj" data-w="80"><img src="img/c3.png" alt="Ring, star and question mark"></div>
+  <div class="obj" data-w="150"><img src="img/c4.png" alt="Question marks and arrows"></div>
+  <div class="obj" data-w="160"><img src="img/c5.png" alt="Starburst and question mark"></div>
+  <div class="obj" data-w="160"><img src="img/c6.png" alt="Rings and starburst"></div>
+  <div class="obj" data-w="120"><img src="img/c7.png" alt="Dots and star"></div>
+  <div class="obj" data-w="85"><img src="img/c8.png" alt="Starburst and question mark"></div>
+  <div class="obj" data-w="160"><img src="img/c9.png" alt="Rings, star and arrow"></div>
+  <div class="obj" data-w="140"><img src="img/c10.png" alt="Dots and ring"></div>
+  <div class="obj" data-w="140"><img src="img/c11.png" alt="Rings, question marks and stars"></div>
+  <div class="obj" data-w="150"><img src="img/c12.png" alt="Starbursts and dot"></div>
+  <svg id="orbit" aria-hidden="true" style="position:absolute;left:0;top:0;z-index:0;pointer-events:none;overflow:visible"></svg>
+  <!-- the ring beneath the text: smaller pieces from the same flyer on an orbit, plus two more ribbon lines -->
+  <div class="obj orb" data-w="100"><img src="img/o1.png" alt="Rings, arrows and a question mark"></div>
+  <div class="obj orb" data-w="170" style="--r:-12deg"><svg viewBox="0 0 420 150" aria-label="Pink and violet ribbon"><defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset=".3" stop-color="#ff8fd6"/><stop offset=".7" stop-color="#6d4bd9"/><stop offset="1" stop-color="#15102a"/></linearGradient></defs><path d="M10 110 C 90 10, 220 10, 300 70 S 400 150, 410 90" fill="none" stroke="url(#g4)" stroke-width="12" stroke-linecap="round"/></svg></div>
+  <div class="obj orb" data-w="110"><img src="img/o2.png" alt="Starburst and question mark"></div>
+  <div class="obj orb" data-w="80"><img src="img/o3.png" alt="Star, ring and arrows"></div>
+  <div class="obj orb" data-w="120"><img src="img/o4.png" alt="Starburst and question mark"></div>
+  <div class="obj orb" data-w="100"><img src="img/o5.png" alt="Rings and arrows"></div>
+  <div class="obj orb" data-w="110"><img src="img/o6.png" alt="Starburst, ring and arrows"></div>
+  <div class="obj orb" data-w="180" style="--r:8deg"><svg viewBox="0 0 440 130" aria-label="Grey, yellow and cyan ribbon"><defs><linearGradient id="g5" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b0b0b0"/><stop offset=".35" stop-color="#eefb4b"/><stop offset=".6" stop-color="#101010"/><stop offset="1" stop-color="#1fd6ff"/></linearGradient></defs><path d="M10 90 C 110 10, 250 10, 330 50 S 420 120, 430 60" fill="none" stroke="url(#g5)" stroke-width="16"/></svg></div>
+  <div class="obj orb" data-w="95"><img src="img/o7.png" alt="Rings and question marks"></div>
+  <div class="obj orb" data-w="90"><img src="img/o8.png" alt="Rings, arrows and star"></div>
+  <div class="obj orb" data-w="110"><img src="img/o9.png" alt="Starburst and question marks"></div>
+  <div class="obj orb" data-w="110"><img src="img/o10.png" alt="Starburst, ring and arrow"></div>
+  <div class="obj orb" data-w="80"><img src="img/o11.png" alt="Ring and star"></div>
+  <div class="obj orb" data-w="105"><img src="img/o12.png" alt="Star, question marks and ring"></div>
+</div>
+
+<script>
+(() => {
+  const stage = document.getElementById('stage');
+  const mid = document.getElementById('mid'), top = document.querySelector('.top'), bottom = document.getElementById('bottom');
+  const objs = [...document.querySelectorAll('.obj')];
+  const num = (o, v) => parseFloat(o.style.getPropertyValue(v)) || 0;
+  const GUT = 16;
+
+  let seed = 7;
+  const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+
+  // Lay the objects into the space the text leaves free (a column right of the text block,
+  // then the band beneath it), in loose rows spread evenly, scaled so everything fits on one screen.
+  function pack(items, zones, pad, tight) {
+    const placed = []; let queue = items.slice();
+    for (let zi = 0; zi < zones.length; zi++) {
+      const z = zones[zi], last = zi === zones.length - 1, zw = z.x1 - z.x0, zh = z.y1 - z.y0;
+      if (zw < 100 || zh < 60) continue;
+      const rows = []; let row = [], x = 0;
+      const fits = queue.filter(it => it.w <= zw); queue = queue.filter(it => it.w > zw);
+      for (const it of fits) {
+        if (x + it.w > zw && row.length) { rows.push(row); row = []; x = 0; }
+        row.push(it); x += it.w + pad;
+      }
+      if (row.length) rows.push(row);
+      // keep whole rows that fit the zone height; the rest go to the next zone
+      let used = 0, keep = [];
+      for (const r of rows) { const rh = Math.max(...r.map(it => it.h)); if (used + rh + (keep.length ? pad : 0) <= zh || (last && !keep.length)) { keep.push(r); used += rh + (keep.length > 1 ? pad : 0); } else { queue.push(...r); } }
+      if (last && queue.length) return null;
+      const vslack = tight ? 0 : Math.max(0, zh - used), vgap = tight ? pad : vslack / (keep.length + 1);
+      let y = z.y0 + vgap;
+      for (const r of keep) {
+        const rh = Math.max(...r.map(it => it.h)), w = r.reduce((a, it) => a + it.w, 0);
+        const hgap = Math.max(0, zw - w) / (r.length + 1); let cx = z.x0 + hgap;
+        for (const it of r) {
+          placed.push({ it, x: cx + (rnd() - .5) * Math.min(hgap, 40), y: y + (rh - it.h) / 2 + (rnd() - .5) * Math.min(vgap, 36) });
+          cx += it.w + hgap;
+        }
+        y += rh + vgap + (keep.length > 1 ? pad : 0);
+      }
+    }
+    return queue.length ? null : placed;
+  }
+
+  function ring(pieces, cx, cy, rx, ry) {
+    const out = []; const n = pieces.length;
+    for (let i = 0; i < n; i++) {
+      const a = -Math.PI / 2 + (i / n) * Math.PI * 2 + (rnd() - .5) * 0.18;
+      const it = pieces[i], r = 0.93 + rnd() * 0.14;
+      out.push({ it, x: cx + Math.cos(a) * rx * r - it.w / 2, y: cy + Math.sin(a) * ry * r - it.h / 2 });
+    }
+    return out;
+  }
+  const orbitSvg = document.getElementById('orbit');
+  function drawOrbit(cx, cy, rx, ry) {
+    orbitSvg.setAttribute('width', stage.clientWidth); orbitSvg.setAttribute('height', stage.clientHeight);
+    orbitSvg.innerHTML = '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry + '" fill="none" stroke="#d6d6d6" stroke-width="1.2"/>' +
+      '<ellipse cx="' + (cx + rx * .04) + '" cy="' + (cy - ry * .06) + '" rx="' + (rx * .82) + '" ry="' + (ry * 1.12) + '" transform="rotate(-14 ' + cx + ' ' + cy + ')" fill="none" stroke="#e1e1e1" stroke-width="1"/>';
+  }
+
+  function layout() {
+    const S = stage.getBoundingClientRect();
+    const rel = r => ({ x0: r.left - S.left, x1: r.right - S.left, y0: r.top - S.top, y1: r.bottom - S.top });
+    // the text block's row stretches to the footer, so measure its actual content, not its box
+    const kids = [...mid.querySelectorAll('h1, .labels, .vol')].map(k => k.getBoundingClientRect());
+    const M = rel(mid.getBoundingClientRect());   // the block's box: the right-hand column keys off this, unchanged
+    const Mt = { x1: Math.max(...kids.map(k => k.right)) - S.left, y1: Math.max(...kids.map(k => k.bottom)) - S.top };   // where the text really ends
+    const T = rel(top.getBoundingClientRect()), B = rel(bottom.getBoundingClientRect());
+    const W = stage.clientWidth, narrow = W < 720;
+    if (narrow) stage.style.minHeight = '';
+    const zones = [
+      { x0: M.x1 + 36, x1: W - GUT, y0: T.y1 + 12, y1: M.y1 },
+      { x0: GUT, x1: W - GUT, y0: Mt.y1 + 24, y1: narrow ? Mt.y1 + 24 + 4000 : B.y0 - 14 }
+    ];
+    const col = objs.filter(o => !o.classList.contains('orb')), orbs = objs.filter(o => o.classList.contains('orb'));
+    const meas = o => { const vb = o.firstElementChild.getAttribute('viewBox'); const ar = vb ? (vb.split(' ')[3] / vb.split(' ')[2]) : (o.firstElementChild.naturalHeight / o.firstElementChild.naturalWidth || 1); return { o, w: Number(o.dataset.w), ar }; };
+    const sized = (b, s) => ({ o: b.o, w: Math.round(b.w * s), h: Math.round(b.w * s * b.ar) });
+    // the orbit: an ellipse centred under the text, sized to the band it has
+    const ob = orbs.map(meas); let orbit = [];
+    if (!narrow) {
+      const band = zones[1]; const bw = band.x1 - band.x0, bh = band.y1 - band.y0;
+      for (let s = 0.95; s >= 0.3; s -= 0.05) {
+        seed = 11;
+        const pieces = ob.map(b => sized(b, s)); const mw = Math.max(...pieces.map(p => p.w)), mh = Math.max(...pieces.map(p => p.h));
+        // the ring stays under the text block, clear of the column on the right
+        const ux0 = band.x0, ux1 = Math.min(band.x1, M.x1 + 10), uw = ux1 - ux0;
+        const rx = Math.min(uw / 2 - mw / 2 - 8, 520), ry = bh / 2 - mh / 2 - 6;
+        if (rx >= 60 && ry >= 26 && ry >= mh * 0.55) { const cx = ux0 + uw / 2, cy = band.y0 + bh / 2; orbit = ring(pieces, cx, cy, rx, ry); drawOrbit(cx, cy, rx, ry); break; }
+      }
+      if (!orbit.length) orbitSvg.innerHTML = '';
+    }
+    const base = col.map(meas);
+    if (!narrow) {
+      for (let s = 1; s >= 0.3; s -= 0.05) { seed = 7; const placed = pack(base.map(b => sized(b, s)), [zones[0]], Math.round(16 * s)); if (placed) return placed.concat(orbit); }
+      return orbit;
+    }
+    // phone: the column pieces pack beneath the text, the orbit sits below them, and the page grows to fit
+    for (let s = 0.8; s >= 0.3; s -= 0.05) {
+      seed = 7;
+      const placed = pack(base.map(b => sized(b, s)), [zones[1]], Math.round(16 * s), true);
+      if (placed) {
+        const maxY = Math.max(...placed.map(p => p.y + p.it.h));
+        seed = 11; const pieces = ob.map(b => sized(b, 0.7)); const mh = Math.max(...pieces.map(p => p.h));
+        const rx = (W - 2 * GUT) / 2 - Math.max(...pieces.map(p => p.w)) / 2, ry = rx * 0.9; const cx = W / 2, cy = maxY + 40 + mh / 2 + ry;
+        const orb = ring(pieces, cx, cy, rx, ry); drawOrbit(cx, cy, rx, ry);
+        stage.style.minHeight = (cy + ry + mh / 2 + 70) + 'px';
+        return placed.concat(orb);
+      }
+    }
+    seed = 7;
+    return pack(base.map(b => ({ o: b.o, w: Math.round(b.w * .3), h: Math.round(b.w * .3 * b.ar) })), [zones[1]], 6) || [];
+  }
+  function apply(p) { p.it.o.style.setProperty('--o', '1'); p.it.o.style.setProperty('--w', p.it.w + 'px'); p.it.o.style.setProperty('--x', p.x + 'px'); p.it.o.style.setProperty('--y', p.y + 'px'); }
+  function run() { layout().forEach(p => { if (!p.it.o.dataset.moved) apply(p); }); }
+
+  const ready = Promise.all([document.fonts ? document.fonts.ready : Promise.resolve(), ...objs.map(o => o.firstElementChild.tagName === 'IMG' && !o.firstElementChild.complete ? new Promise(r => { o.firstElementChild.onload = o.firstElementChild.onerror = r; }) : null)]);
+  ready.then(run);
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(run, 150); });
+
+  let lastTap = 0;
+  for (const o of objs) {
+    let sx = 0, sy = 0, ox = 0, oy = 0, moved = false;
+    o.addEventListener('pointerdown', e => {
+      if (e.button) return;
+      o.setPointerCapture(e.pointerId);
+      sx = e.clientX; sy = e.clientY; ox = num(o, '--x'); oy = num(o, '--y'); moved = false;
+      o.classList.add('drag');
+    });
+    o.addEventListener('pointermove', e => {
+      if (!o.hasPointerCapture(e.pointerId)) return;
+      const dx = e.clientX - sx, dy = e.clientY - sy;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+      if (moved) { o.dataset.moved = '1'; o.style.setProperty('--x', (ox + dx) + 'px'); o.style.setProperty('--y', (oy + dy) + 'px'); }
+    });
+    const up = e => {
+      o.classList.remove('drag');
+      if (o.hasPointerCapture(e.pointerId)) o.releasePointerCapture(e.pointerId);
+      if (!moved) { const now = Date.now(); if (now - lastTap < 350) o.classList.toggle('big'); lastTap = now; }
+    };
+    o.addEventListener('pointerup', up); o.addEventListener('pointercancel', up);
+  }
+})();
+</script>
+
+</body>
+</html>
